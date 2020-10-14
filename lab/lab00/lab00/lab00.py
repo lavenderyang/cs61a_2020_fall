@@ -7,3 +7,6 @@ def twenty_twenty():
     """
     return 20*100 + (50-30)
 
+max(f(2, g(h(1, 5), 3)), 4)
+min(max(2, min(max(1, 5), 3)), 4)
+3
