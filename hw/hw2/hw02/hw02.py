@@ -23,6 +23,12 @@ def num_eights(x):
     True
     """
     "*** YOUR CODE HERE ***"
+    if x == 0: 
+        return 0
+    elif x % 10 == 8: 
+        return 1 + num_eights(x//10)
+    else: 
+        return num_eights(x//10)
 
 
 def pingpong(n):
@@ -58,6 +64,14 @@ def pingpong(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    def pingpong_helper(result, index, step):
+        if n == index: 
+            return result 
+        elif index % 8 == 0 or num_eights(index) > 0:
+            return pingpong_helper(result-step, index+1, -step)
+        else: 
+            return pingpong_helper(result+step, index+1, step)
+    return pingpong_helper(1, 1, 1)
 
 
 def missing_digits(n):
@@ -88,6 +102,12 @@ def missing_digits(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n < 10: 
+        return 0
+    else: 
+        last_digit, rest_of_digits = n % 10, n // 10
+        missing = last_digit - (rest_of_digits % 10) - 1
+        return max(missing, 0) + missing_digits(rest_of_digits)
 
 
 def next_largest_coin(coin):
@@ -124,6 +144,16 @@ def count_coins(total):
     True
     """
     "*** YOUR CODE HERE ***"
+    def count(number, coin):
+        if number == 0: 
+            return 1
+        elif not coin: 
+            return 0
+        elif number < 0: 
+            return 0 
+        else: 
+            return count(number-coin, coin) + count(number, next_largest_coin(coin))
+    return count(total, 1)
 
 
 from operator import sub, mul
@@ -138,5 +168,5 @@ def make_anonymous_factorial():
     >>> check(HW_SOURCE_FILE, 'make_anonymous_factorial', ['Assign', 'AugAssign', 'FunctionDef', 'Recursion'])
     True
     """
-    return 'YOUR_EXPRESSION_HERE'
-
+    return (lambda f: lambda k: f(f, k))(lambda f, k: k if k == 1 else mul(k, f(f, sub(k, 1)) ))
+ 
