@@ -143,11 +143,25 @@ def store_digits(n):
     """
     "*** YOUR CODE HERE ***"
     assert n > 0, "n must be a postive number. "
-    link_digits = Link.empty
-    while n > 0: 
-        link_digits = Link(n%10, link_digits)
-        n = n // 10
-    return link_digits
+    # 1. Iterative solution
+    # link_digits = Link.empty
+    # while n > 0: 
+    #     link_digits = Link(n%10, link_digits)
+    #     n = n // 10
+    # return link_digits
+    
+    # 2. Recursive solution 
+    def extend_link(s, t):
+        if s is Link.empty:
+            return t
+        else:
+            return Link(s.first, extend_link(s.rest, t))
+    
+    last, rest_of_digits = n % 10, n // 10 
+    result = Link(last)
+    if rest_of_digits > 0: 
+        result = extend_link(store_digits(rest_of_digits), result)
+    return result
 
 def is_bst(t):
     """Returns True if the Tree t has the structure of a valid BST.
